@@ -6,498 +6,533 @@
 <title>גן חסידי אומות העולם – חיפה</title>
 <style>
 :root {
---bg: #f6f3ec;
---panel: #ffffff;
---ink: #243028;
---muted: #66756b;
---accent: #2f6b4f;
---accent-2: #8b6f47;
---line: #d9d2c4;
---entry: #2e8b57;
---orientation: #2b6cb0;
---plaza: #8b5cf6;
---children: #d97706;
---story: #c2410c;
---path: #64748b;
---shadow: 0 10px 30px rgba(0,0,0,.08);
+  --bg: #f6f3ec;
+  --panel: #ffffff;
+  --ink: #243028;
+  --muted: #66756b;
+  --accent: #2f6b4f;
+  --accent-2: #8b6f47;
+  --line: #d9d2c4;
+  --entry: #2e8b57;
+  --orientation: #2b6cb0;
+  --plaza: #8b5cf6;
+  --children: #d97706;
+  --story: #c2410c;
+  --path: #64748b;
+  --shadow: 0 10px 30px rgba(0,0,0,.08);
 }
 * { box-sizing: border-box; }
+
 body {
-margin: 0;
-font-family: Arial, "Noto Sans Hebrew", sans-serif;
-background: var(--bg);
-color: var(--ink);
+  margin: 0;
+  font-family: Arial, "Noto Sans Hebrew", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
 }
+
 .app {
-display: grid;
-grid-template-columns: 420px 1fr;
-min-height: 100vh;
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  min-height: 100vh;
 }
+
 .sidebar {
-background: var(--panel);
-border-left: 1px solid var(--line);
-padding: 18px;
-box-shadow: var(--shadow);
-position: sticky;
-top: 0;
-height: 100vh;
-overflow: auto;
-z-index: 2;
+  background: var(--panel);
+  border-left: 1px solid var(--line);
+  padding: 18px;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: auto;
+  z-index: 2;
 }
+
 .brand {
-margin-bottom: 16px;
+  margin-bottom: 16px;
 }
 .brand h1 {
-margin: 0 0 8px;
-font-size: 28px;
-line-height: 1.2;
+  margin: 0 0 8px;
+  font-size: 28px;
+  line-height: 1.2;
 }
 .brand p {
-margin: 0;
-color: var(--muted);
-font-size: 14px;
-line-height: 1.6;
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
 }
+
 .controls {
-display: grid;
-gap: 10px;
-margin: 18px 0;
+  display: grid;
+  gap: 10px;
+  margin: 18px 0;
 }
+
 .search {
-width: 100%;
-padding: 12px 14px;
-border: 1px solid var(--line);
-border-radius: 12px;
-font-size: 15px;
-outline: none;
-background: #fff;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-size: 15px;
+  outline: none;
+  background: #fff;
 }
+
 .filter-row {
-display: flex;
-flex-wrap: wrap;
-gap: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
+
 .chip {
-border: 1px solid var(--line);
-background: #fff;
-color: var(--ink);
-border-radius: 999px;
-padding: 8px 12px;
-cursor: pointer;
-font-size: 13px;
-transition: .15s ease;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  border-radius: 999px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: .15s ease;
 }
 .chip:hover {
-transform: translateY(-1px);
+  background: #f7faf8;
 }
 .chip.active {
-background: var(--accent);
-color: #fff;
-border-color: var(--accent);
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
 }
+
 .card {
-border: 1px solid var(--line);
-border-radius: 18px;
-padding: 16px;
-background: #fff;
-margin-bottom: 14px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 16px;
+  background: #fff;
+  margin-bottom: 14px;
 }
 .card h2 {
-margin: 0 0 6px;
-font-size: 24px;
-line-height: 1.2;
+  margin: 0 0 6px;
+  font-size: 24px;
+  line-height: 1.2;
 }
 .sub {
-color: var(--muted);
-font-size: 14px;
-margin-bottom: 10px;
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 10px;
 }
 .meta {
-display: flex;
-flex-wrap: wrap;
-gap: 8px;
-margin-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 .tag {
-font-size: 12px;
-padding: 6px 10px;
-border-radius: 999px;
-background: #f1f5f2;
-border: 1px solid #e4ece6;
-color: #234;
+  font-size: 12px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #f1f5f2;
+  border: 1px solid #e4ece6;
+  color: #234;
 }
 .desc {
-line-height: 1.75;
-font-size: 15px;
-white-space: pre-line;
+  line-height: 1.75;
+  font-size: 15px;
+  white-space: pre-line;
 }
+
 .image-wrap {
-margin-top: 12px;
-display: none;
-position: relative;
+  margin-top: 12px;
+  display: none;
+  position: relative;
 }
 .image-wrap.visible {
-display: block;
+  display: block;
 }
 .image-wrap img {
-width: 100%;
-border-radius: 14px;
-border: 1px solid var(--line);
-display: block;
-background: #f8f8f8;
-min-height: 120px;
-object-fit: cover;
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  display: block;
+  background: #f8f8f8;
+  min-height: 120px;
+  object-fit: cover;
 }
+
 .zoom-btn {
-position: absolute;
-top: 10px;
-left: 10px;
-width: 42px;
-height: 42px;
-border: none;
-border-radius: 999px;
-background: rgba(36, 48, 40, 0.85);
-color: #fff;
-font-size: 18px;
-cursor: pointer;
-display: inline-flex;
-align-items: center;
-justify-content: center;
-box-shadow: 0 8px 20px rgba(0,0,0,.18);
-transition: transform .15s ease, background .15s ease;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(36, 48, 40, 0.85);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(0,0,0,.18);
+  transition: background .15s ease;
 }
 .zoom-btn:hover {
-transform: scale(1.06);
-background: rgba(20, 28, 23, 0.92);
+  background: rgba(20, 28, 23, 0.92);
 }
+
 .image-fallback {
-display: none;
-margin-top: 10px;
-padding: 10px 12px;
-border-radius: 12px;
-background: #fff7ed;
-border: 1px solid #fed7aa;
-color: #9a3412;
-font-size: 13px;
+  display: none;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #9a3412;
+  font-size: 13px;
 }
 .image-fallback.visible {
-display: block;
+  display: block;
 }
+
 .nav-buttons {
-display: flex;
-gap: 10px;
-margin-top: 14px;
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
 }
 .btn {
-border: none;
-background: var(--accent);
-color: #fff;
-padding: 11px 14px;
-border-radius: 12px;
-cursor: pointer;
-font-size: 14px;
-transition: .15s ease;
+  border: none;
+  background: var(--accent);
+  color: #fff;
+  padding: 11px 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: .15s ease;
 }
 .btn:hover {
-transform: translateY(-1px);
+  filter: brightness(.98);
 }
 .btn.secondary {
-background: #eef3ef;
-color: var(--ink);
+  background: #eef3ef;
+  color: var(--ink);
 }
+
 .point-list {
-margin-top: 18px;
+  margin-top: 18px;
 }
 .point-list h3 {
-margin: 0 0 10px;
-font-size: 17px;
+  margin: 0 0 10px;
+  font-size: 17px;
 }
 .list-item {
-padding: 10px 12px;
-border-radius: 12px;
-border: 1px solid var(--line);
-background: #fff;
-margin-bottom: 8px;
-cursor: pointer;
-transition: .15s;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: .15s;
 }
 .list-item:hover {
-transform: translateY(-1px);
-box-shadow: 0 6px 18px rgba(0,0,0,.05);
+  box-shadow: 0 6px 18px rgba(0,0,0,.05);
 }
 .list-item.active {
-border-color: var(--accent);
-background: #f5fbf7;
+  border-color: var(--accent);
+  background: #f5fbf7;
 }
 .list-item .small {
-color: var(--muted);
-font-size: 12px;
-margin-top: 4px;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 4px;
 }
+
 .canvas-wrap {
-padding: 18px;
-display: flex;
-flex-direction: column;
-gap: 16px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
+
 .hero {
-background: linear-gradient(135deg, #fefcf7, #f2efe7);
-border: 1px solid var(--line);
-border-radius: 22px;
-padding: 16px 18px;
-box-shadow: var(--shadow);
+  background: linear-gradient(135deg, #fefcf7, #f2efe7);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
 }
 .hero h2 {
-margin: 0 0 6px;
-font-size: 26px;
+  margin: 0 0 6px;
+  font-size: 26px;
 }
 .hero p {
-margin: 0;
-color: var(--muted);
-line-height: 1.6;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
 }
+
 .map-card {
-background: #fff;
-border: 1px solid var(--line);
-border-radius: 22px;
-box-shadow: var(--shadow);
-overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
 }
+
 .map-header {
-display: flex;
-flex-wrap: wrap;
-justify-content: space-between;
-gap: 10px;
-align-items: center;
-padding: 14px 16px;
-border-bottom: 1px solid var(--line);
-background: #faf8f3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--line);
+  background: #faf8f3;
 }
+
 .legend {
-display: flex;
-flex-wrap: wrap;
-gap: 12px;
-font-size: 13px;
-color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--muted);
 }
 .legend span {
-display: inline-flex;
-align-items: center;
-gap: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 .dot {
-width: 11px;
-height: 11px;
-border-radius: 50%;
-display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  display: inline-block;
 }
+
 .svg-wrap {
-width: 100%;
-overflow: auto;
-background: linear-gradient(180deg, #eef5ea 0%, #e7efdf 100%);
+  width: 100%;
+  overflow: auto;
+  background: linear-gradient(180deg, #eef5ea 0%, #e7efdf 100%);
 }
+
 svg {
-width: 100%;
-min-width: 980px;
-height: auto;
-display: block;
+  width: 100%;
+  min-width: 980px;
+  height: auto;
+  display: block;
 }
+
 .zone-label {
-font-size: 20px;
-fill: #32463a;
-font-weight: bold;
+  font-size: 20px;
+  fill: #32463a;
+  font-weight: bold;
 }
 .zone-sub {
-font-size: 12px;
-fill: #6d7b72;
+  font-size: 12px;
+  fill: #6d7b72;
 }
+
 .path-wide {
-fill: none;
-stroke: #c8b38b;
-stroke-width: 40;
-stroke-linecap: round;
-stroke-linejoin: round;
-opacity: .95;
+  fill: none;
+  stroke: #c8b38b;
+  stroke-width: 40;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .95;
 }
 .path-inner {
-fill: none;
-stroke: #d9c7a2;
-stroke-width: 22;
-stroke-linecap: round;
-stroke-linejoin: round;
-opacity: .95;
+  fill: none;
+  stroke: #d9c7a2;
+  stroke-width: 22;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: .95;
 }
 .ring-base {
-fill: none;
-stroke: #cdbb93;
-stroke-width: 48;
-opacity: .45;
+  fill: none;
+  stroke: #cdbb93;
+  stroke-width: 48;
+  opacity: .45;
 }
 .ring-inner {
-fill: none;
-stroke: #deceb0;
-stroke-width: 24;
-opacity: .7;
+  fill: none;
+  stroke: #deceb0;
+  stroke-width: 24;
+  opacity: .7;
 }
 .plaza-circle {
-fill: #e8ddd1;
-stroke: #bfa88a;
-stroke-width: 5;
+  fill: #e8ddd1;
+  stroke: #bfa88a;
+  stroke-width: 5;
 }
 .plaza-core {
-fill: #d8c4ae;
-opacity: .6;
+  fill: #d8c4ae;
+  opacity: .6;
 }
 .children-area {
-fill: #ffe2bf;
-stroke: #d7a064;
-stroke-width: 5;
-opacity: .95;
+  fill: #ffe2bf;
+  stroke: #d7a064;
+  stroke-width: 5;
+  opacity: .95;
 }
 .play-area {
-fill: #ffd86e;
-stroke: #d29a00;
-stroke-width: 4;
+  fill: #ffd86e;
+  stroke: #d29a00;
+  stroke-width: 4;
 }
 .tree {
-fill: #bfd9b7;
-opacity: .75;
+  fill: #bfd9b7;
+  opacity: .75;
 }
 .tree.dark {
-fill: #a5c69b;
-opacity: .55;
+  fill: #a5c69b;
+  opacity: .55;
 }
+
 .marker {
-cursor: pointer;
-transition: transform .15s ease;
-}
-.marker:hover {
-transform: scale(1.06);
+  cursor: pointer;
 }
 .marker circle.base {
-stroke: #fff;
-stroke-width: 4;
+  stroke: #fff;
+  stroke-width: 4;
 }
 .marker text {
-fill: white;
-font-size: 12px;
-font-weight: bold;
-dominant-baseline: middle;
-text-anchor: middle;
-pointer-events: none;
+  fill: white;
+  font-size: 12px;
+  font-weight: bold;
+  dominant-baseline: middle;
+  text-anchor: middle;
+  pointer-events: none;
 }
+
 .marker-label {
-font-size: 12px;
-fill: #28332d;
-text-anchor: middle;
-pointer-events: none;
+  font-size: 12px;
+  fill: #28332d;
+  text-anchor: middle;
+  pointer-events: none;
 }
+
 .marker-name {
-font-size: 10px;
-fill: #405047;
-text-anchor: middle;
-pointer-events: none;
+  font-size: 10px;
+  fill: #405047;
+  text-anchor: middle;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .15s ease;
 }
+
+.marker:hover .marker-name {
+  opacity: 1;
+}
+
 .selected circle.base {
-stroke: #111827;
-stroke-width: 5;
-filter: drop-shadow(0 0 0.35rem rgba(0,0,0,.2));
+  stroke: #111827;
+  stroke-width: 5;
+  filter: drop-shadow(0 0 0.35rem rgba(0,0,0,.2));
 }
+
 .hint {
-padding: 0 16px 16px;
-color: var(--muted);
-font-size: 13px;
+  padding: 0 16px 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.footer-note {
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 10px 16px 18px;
 }
 
 .lightbox {
-position: fixed;
-inset: 0;
-background: rgba(0,0,0,.82);
-display: none;
-align-items: center;
-justify-content: center;
-padding: 24px;
-z-index: 9999;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.82);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 9999;
 }
 .lightbox.visible {
-display: flex;
+  display: flex;
 }
 .lightbox-inner {
-position: relative;
-max-width: min(1100px, 96vw);
-max-height: 92vh;
+  position: relative;
+  max-width: min(1100px, 96vw);
+  max-height: 92vh;
 }
 .lightbox img {
-display: block;
-max-width: 100%;
-max-height: 92vh;
-border-radius: 18px;
-box-shadow: 0 20px 60px rgba(0,0,0,.35);
-background: #111;
+  display: block;
+  max-width: 100%;
+  max-height: 92vh;
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.35);
+  background: #111;
 }
 .lightbox-close {
-position: absolute;
-top: -14px;
-left: -14px;
-width: 44px;
-height: 44px;
-border: none;
-border-radius: 999px;
-background: #fff;
-color: #111;
-font-size: 24px;
-cursor: pointer;
-box-shadow: 0 8px 24px rgba(0,0,0,.2);
+  position: absolute;
+  top: -14px;
+  left: -14px;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 999px;
+  background: #fff;
+  color: #111;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0,0,0,.2);
 }
 .lightbox-caption {
-margin-top: 10px;
-text-align: center;
-color: #fff;
-font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
 }
 
 @media (max-width: 1100px) {
-.app {
-grid-template-columns: 1fr;
-}
-.sidebar {
-position: static;
-height: auto;
-border-left: 0;
-border-top: 1px solid var(--line);
-order: 2;
-}
-.canvas-wrap {
-order: 1;
-}
+  .app {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    position: static;
+    height: auto;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+    order: 2;
+  }
+  .canvas-wrap {
+    order: 1;
+  }
 }
 </style>
 </head>
 <body>
 <div class="app">
-<aside class="sidebar">
-<div class="brand">
-<h1>גן חסידי אומות העולם</h1>
-<p>
-רמת אלון, חיפה · מפה וירטואלית אינטראקטיבית של הגן,
-תחנות ההנצחה, הרחבה המרכזית וגן ילדי הנצח.
-</p>
-</div>
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>גן חסידי אומות העולם</h1>
+      <p>
+        רמת אלון, חיפה · מפה וירטואלית אינטראקטיבית של הגן,
+        תחנות ההנצחה, הרחבה המרכזית וגן ילדי הנצח.
+      </p>
+    </div>
 
-<div class="controls">
-<input id="searchInput" class="search" type="text" placeholder="חפש תחנה, אדם או אזור..." />
-<div class="filter-row" id="filters"></div>
-</div>
+    <div class="controls">
+      <input id="searchInput" class="search" type="text" placeholder="חפש תחנה, אדם או אזור..." />
+      <div class="filter-row" id="filters"></div>
+    </div>
 
-<div class="card" id="detailCard">
-<h2>ברוכים הבאים</h2>
-<div class="sub">בחר תחנה במפה או מהרשימה</div>
-<div class="meta">
-<span class="tag">סיור אינטראקטיבי</span>
-<span class="tag">22 תחנות הנצחה</span>
-<span class="tag">אזורי גן מרכזיים</span>
-</div>
-<div class="desc">
+    <div class="card" id="detailCard">
+      <h2>ברוכים הבאים</h2>
+      <div class="sub">בחר תחנה במפה או מהרשימה</div>
+      <div class="meta">
+        <span class="tag">סיור אינטראקטיבי</span>
+        <span class="tag">22 תחנות הנצחה</span>
+        <span class="tag">אזורי גן מרכזיים</span>
+      </div>
+      <div class="desc">
 המפה מציגה:
 • כניסה לגן
 • אזור התמצאות
@@ -506,92 +541,93 @@ order: 1;
 • טבעת תחנות ההנצחה 1–22
 • גן ילדי הנצח וגן המשחקים
 לחץ על כל תחנה כדי לראות פרטים ותמונה.
-</div>
-<div id="imageWrap" class="image-wrap">
-<img id="detailImage" alt="" />
-</div>
-<div id="imageFallback" class="image-fallback">לא ניתן לטעון את התמונה כרגע.</div>
-<div class="nav-buttons">
-<button class="btn secondary" id="prevBtn">תחנה קודמת</button>
-<button class="btn" id="nextBtn">תחנה הבאה</button>
-</div>
-</div>
+      </div>
+      <div id="imageWrap" class="image-wrap">
+        <img id="detailImage" alt="" />
+      </div>
+      <div id="imageFallback" class="image-fallback">לא ניתן לטעון את התמונה כרגע.</div>
+      <div class="nav-buttons">
+        <button class="btn secondary" id="prevBtn">תחנה קודמת</button>
+        <button class="btn" id="nextBtn">תחנה הבאה</button>
+      </div>
+    </div>
 
-<div class="point-list">
-<h3>רשימת תחנות</h3>
-<div id="listContainer"></div>
-</div>
-</aside>
+    <div class="point-list">
+      <h3>רשימת תחנות</h3>
+      <div id="listContainer"></div>
+    </div>
+  </aside>
 
-<main class="canvas-wrap">
-<section class="hero">
-<h2>מפת סיור וירטואלית</h2>
-<p>
-זוהי מפה גרפית של הגן, המבוססת על מבנה האתר, סדר התחנות והתצלומים שאספת.
-בהמשך אפשר להחליף את הבסיס הגרפי גם בתצלום-על או אורתופוטו אמיתי של הגן.
-</p>
-</section>
+  <main class="canvas-wrap">
+    <section class="hero">
+      <h2>מפת סיור וירטואלית</h2>
+      <p>
+        זוהי מפה גרפית של הגן, המבוססת על מבנה האתר, סדר התחנות והתצלומים שאספת.
+        בהמשך אפשר להחליף את הבסיס הגרפי גם בתצלום-על או אורתופוטו אמיתי של הגן.
+      </p>
+    </section>
 
-<section class="map-card">
-<div class="map-header">
-<strong>מבט על הגן</strong>
-<div class="legend">
-<span><i class="dot" style="background: var(--entry)"></i> כניסה</span>
-<span><i class="dot" style="background: var(--orientation)"></i> התמצאות</span>
-<span><i class="dot" style="background: var(--plaza)"></i> רחבה</span>
-<span><i class="dot" style="background: var(--children)"></i> ילדי הנצח</span>
-<span><i class="dot" style="background: var(--story)"></i> תחנות הנצחה</span>
-</div>
-</div>
+    <section class="map-card">
+      <div class="map-header">
+        <strong>מבט על הגן</strong>
+        <div class="legend">
+          <span><i class="dot" style="background: var(--entry)"></i> כניסה</span>
+          <span><i class="dot" style="background: var(--orientation)"></i> התמצאות</span>
+          <span><i class="dot" style="background: var(--plaza)"></i> רחבה</span>
+          <span><i class="dot" style="background: var(--children)"></i> ילדי הנצח</span>
+          <span><i class="dot" style="background: var(--story)"></i> תחנות הנצחה</span>
+        </div>
+      </div>
 
-<div class="svg-wrap">
-<svg viewBox="0 0 1200 860" id="mapSvg" aria-label="מפת הגן">
-<rect x="0" y="0" width="1200" height="860" fill="#e8f1e2"></rect>
+      <div class="svg-wrap">
+        <svg viewBox="0 0 1200 860" id="mapSvg" aria-label="מפת הגן">
+          <rect x="0" y="0" width="1200" height="860" fill="#e8f1e2"></rect>
 
-<circle class="tree" cx="150" cy="170" r="90"></circle>
-<circle class="tree dark" cx="260" cy="110" r="75"></circle>
-<circle class="tree" cx="980" cy="160" r="110"></circle>
-<circle class="tree dark" cx="1080" cy="250" r="90"></circle>
-<circle class="tree" cx="1010" cy="660" r="130"></circle>
-<circle class="tree dark" cx="855" cy="740" r="85"></circle>
-<circle class="tree" cx="410" cy="730" r="90"></circle>
-<circle class="tree dark" cx="150" cy="580" r="75"></circle>
+          <circle class="tree" cx="150" cy="170" r="90"></circle>
+          <circle class="tree dark" cx="260" cy="110" r="75"></circle>
+          <circle class="tree" cx="980" cy="160" r="110"></circle>
+          <circle class="tree dark" cx="1080" cy="250" r="90"></circle>
+          <circle class="tree" cx="1010" cy="660" r="130"></circle>
+          <circle class="tree dark" cx="855" cy="740" r="85"></circle>
+          <circle class="tree" cx="410" cy="730" r="90"></circle>
+          <circle class="tree dark" cx="150" cy="580" r="75"></circle>
 
-<path class="path-wide" d="M130 710 C 190 640, 270 565, 355 510 C 430 460, 495 420, 530 395"></path>
-<path class="path-inner" d="M130 710 C 190 640, 270 565, 355 510 C 430 460, 495 420, 530 395"></path>
+          <path class="path-wide" d="M130 710 C 190 640, 270 565, 355 510 C 430 460, 495 420, 530 395"></path>
+          <path class="path-inner" d="M130 710 C 190 640, 270 565, 355 510 C 430 460, 495 420, 530 395"></path>
 
-<ellipse class="ring-base" cx="690" cy="390" rx="255" ry="215"></ellipse>
-<ellipse class="ring-inner" cx="690" cy="390" rx="255" ry="215"></ellipse>
+          <ellipse class="ring-base" cx="690" cy="390" rx="255" ry="215"></ellipse>
+          <ellipse class="ring-inner" cx="690" cy="390" rx="255" ry="215"></ellipse>
 
-<circle class="plaza-circle" cx="690" cy="390" r="120"></circle>
-<circle class="plaza-core" cx="690" cy="390" r="36"></circle>
+          <circle class="plaza-circle" cx="690" cy="390" r="120"></circle>
+          <circle class="plaza-core" cx="690" cy="390" r="36"></circle>
 
-<circle class="children-area" cx="960" cy="650" r="108"></circle>
-<rect class="play-area" x="1035" y="700" width="88" height="58" rx="16"></rect>
+          <circle class="children-area" cx="960" cy="650" r="108"></circle>
+          <rect class="play-area" x="1035" y="700" width="88" height="58" rx="16"></rect>
 
-<text x="125" y="760" class="zone-label">כניסה לגן</text>
-<text x="125" y="782" class="zone-sub">אנדרטת הכניסה ושביל העלייה</text>
-<text x="480" y="300" class="zone-label">אזור ההתמצאות</text>
-<text x="480" y="322" class="zone-sub">סיפור הגן, מפת התמצאות ושמות המונצחים</text>
-<text x="632" y="385" class="zone-label">הרחבה המרכזית</text>
-<text x="640" y="407" class="zone-sub">לב הגן</text>
-<text x="885" y="675" class="zone-label">גן ילדי הנצח</text>
-<text x="872" y="697" class="zone-sub">אנדרטה וגן משחקים</text>
+          <text x="125" y="760" class="zone-label">כניסה לגן</text>
+          <text x="125" y="782" class="zone-sub">אנדרטת הכניסה ושביל העלייה</text>
+          <text x="480" y="300" class="zone-label">אזור ההתמצאות</text>
+          <text x="480" y="322" class="zone-sub">סיפור הגן, מפת התמצאות ושמות המונצחים</text>
+          <text x="632" y="385" class="zone-label">הרחבה המרכזית</text>
+          <text x="640" y="407" class="zone-sub">לב הגן</text>
+          <text x="885" y="675" class="zone-label">גן ילדי הנצח</text>
+          <text x="872" y="697" class="zone-sub">אנדרטה וגן משחקים</text>
 
-<g id="markersLayer"></g>
-</svg>
-</div>
-<div class="hint">טיפ: אפשר לבחור תחנה מהמפה או מהרשימה בצד.</div>
-</section>
-</main>
+          <g id="markersLayer"></g>
+        </svg>
+      </div>
+      <div class="hint">טיפ: אפשר לבחור תחנה מהמפה או מהרשימה בצד.</div>
+      <div class="footer-note">© כל הזכויות שמורות Nofar Levy</div>
+    </section>
+  </main>
 </div>
 
 <div id="lightbox" class="lightbox" aria-hidden="true">
-<div class="lightbox-inner">
-<button id="lightboxClose" class="lightbox-close" aria-label="סגור">×</button>
-<img id="lightboxImage" src="" alt="">
-<div id="lightboxCaption" class="lightbox-caption"></div>
-</div>
+  <div class="lightbox-inner">
+    <button id="lightboxClose" class="lightbox-close" aria-label="סגור">×</button>
+    <img id="lightboxImage" src="" alt="">
+    <div id="lightboxCaption" class="lightbox-caption"></div>
+  </div>
 </div>
 
 <script>
@@ -711,25 +747,25 @@ description: "גן משחקים הצמוד לאזור ילדי הנצח, ומד�
 ];
 
 const zoneLabels = {
-all: "הכל",
-entry: "כניסה",
-orientation: "התמצאות",
-plaza: "רחבה",
-ring: "תחנות הנצחה",
-children: "ילדי הנצח"
+  all: "הכל",
+  entry: "כניסה",
+  orientation: "התמצאות",
+  plaza: "רחבה",
+  ring: "תחנות הנצחה",
+  children: "ילדי הנצח"
 };
 
 function getCssVar(name) {
-return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 
 const typeColors = {
-entry: getCssVar("--entry"),
-orientation: getCssVar("--orientation"),
-plaza: getCssVar("--plaza"),
-children: getCssVar("--children"),
-story: getCssVar("--story"),
-path: getCssVar("--path")
+  entry: getCssVar("--entry"),
+  orientation: getCssVar("--orientation"),
+  plaza: getCssVar("--plaza"),
+  children: getCssVar("--children"),
+  story: getCssVar("--story"),
+  path: getCssVar("--path")
 };
 
 let currentFilter = "all";
@@ -747,268 +783,274 @@ const lightboxCaption = document.getElementById("lightboxCaption");
 const lightboxClose = document.getElementById("lightboxClose");
 
 const storyPoints = points
-.filter(p => typeof p.mapNumber === "number")
-.sort((a, b) => a.mapNumber - b.mapNumber);
+  .filter(p => typeof p.mapNumber === "number")
+  .sort((a, b) => a.mapNumber - b.mapNumber);
 
 function getPointById(id) {
-return points.find(p => p.id === id);
+  return points.find(p => p.id === id);
 }
 
 function markerRadius(point) {
-if (point.type === "plaza") return 20;
-if (point.type === "children") return 18;
-if (point.type === "entry") return 17;
-if (point.type === "orientation") return 17;
-if (point.type === "path") return 14;
-return 16;
+  if (point.type === "plaza") return 20;
+  if (point.type === "children") return 18;
+  if (point.type === "entry") return 17;
+  if (point.type === "orientation") return 17;
+  if (point.type === "path") return 14;
+  return 16;
 }
 
 function isVisible(point) {
-const q = currentQuery.trim().toLowerCase();
-const zoneOk = currentFilter === "all" || point.zone === currentFilter;
-if (!zoneOk) return false;
-if (!q) return true;
-return (
-point.title.toLowerCase().includes(q) ||
-(point.shortName || "").toLowerCase().includes(q) ||
-(point.subtitle || "").toLowerCase().includes(q) ||
-(point.description || "").toLowerCase().includes(q) ||
-String(point.mapNumber || "").includes(q)
-);
+  const q = currentQuery.trim().toLowerCase();
+  const zoneOk = currentFilter === "all" || point.zone === currentFilter;
+  if (!zoneOk) return false;
+  if (!q) return true;
+  return (
+    point.title.toLowerCase().includes(q) ||
+    (point.shortName || "").toLowerCase().includes(q) ||
+    (point.subtitle || "").toLowerCase().includes(q) ||
+    (point.description || "").toLowerCase().includes(q) ||
+    String(point.mapNumber || "").includes(q)
+  );
 }
 
 function buildFilters() {
-const zones = ["all", "entry", "orientation", "plaza", "ring", "children"];
-filtersEl.innerHTML = "";
-zones.forEach(zone => {
-const btn = document.createElement("button");
-btn.className = "chip" + (zone === currentFilter ? " active" : "");
-btn.textContent = zoneLabels[zone];
-btn.onclick = () => {
-currentFilter = zone;
-render();
-};
-filtersEl.appendChild(btn);
-});
+  const zones = ["all", "entry", "orientation", "plaza", "ring", "children"];
+  filtersEl.innerHTML = "";
+  zones.forEach(zone => {
+    const btn = document.createElement("button");
+    btn.className = "chip" + (zone === currentFilter ? " active" : "");
+    btn.textContent = zoneLabels[zone];
+    btn.onclick = () => {
+      currentFilter = zone;
+      render();
+    };
+    filtersEl.appendChild(btn);
+  });
 }
 
 function renderMarkers() {
-markersLayer.innerHTML = "";
-points.forEach(point => {
-if (!isVisible(point)) return;
+  markersLayer.innerHTML = "";
+  points.forEach(point => {
+    if (!isVisible(point)) return;
 
-const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
-g.setAttribute("class", "marker" + (point.id === currentPointId ? " selected" : ""));
-g.setAttribute("transform", `translate(${point.x}, ${point.y})`);
-g.addEventListener("click", () => selectPoint(point.id));
+    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    g.setAttribute("class", "marker" + (point.id === currentPointId ? " selected" : ""));
+    g.setAttribute("transform", `translate(${point.x}, ${point.y})`);
+    g.addEventListener("click", () => selectPoint(point.id));
 
-const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-circle.setAttribute("class", "base");
-circle.setAttribute("r", markerRadius(point));
-circle.setAttribute("fill", typeColors[point.type] || "#666");
-g.appendChild(circle);
+    const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circle.setAttribute("class", "base");
+    circle.setAttribute("r", markerRadius(point));
+    circle.setAttribute("fill", typeColors[point.type] || "#666");
+    g.appendChild(circle);
 
-const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-text.textContent = point.mapNumber ?? "";
-g.appendChild(text);
+    const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    text.textContent = point.mapNumber ?? "";
+    g.appendChild(text);
 
-const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
-label.setAttribute("class", "marker-label");
-label.setAttribute("x", 0);
-label.setAttribute("y", markerRadius(point) + 18);
-label.textContent = point.label || point.title;
-g.appendChild(label);
+    const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    label.setAttribute("class", "marker-label");
+    label.setAttribute("x", 0);
+    label.setAttribute("y", markerRadius(point) + 18);
+    label.textContent = point.label || point.title;
+    g.appendChild(label);
 
-const name = document.createElementNS("http://www.w3.org/2000/svg", "text");
-name.setAttribute("class", "marker-name");
-name.setAttribute("x", 0);
-name.setAttribute("y", markerRadius(point) + 32);
-name.textContent = point.shortName || "";
-g.appendChild(name);
+    if (point.mapNumber) {
+      const name = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      name.setAttribute("class", "marker-name");
+      name.setAttribute("x", 0);
+      name.setAttribute("y", markerRadius(point) + 32);
+      name.textContent = point.shortName || "";
+      g.appendChild(name);
+    }
 
-markersLayer.appendChild(g);
-});
+    markersLayer.appendChild(g);
+  });
 }
 
 function renderList() {
-const visible = points
-.filter(isVisible)
-.sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
+  const visible = points
+    .filter(isVisible)
+    .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
 
-listContainer.innerHTML = "";
+  listContainer.innerHTML = "";
 
-visible.forEach(point => {
-const div = document.createElement("div");
-div.className = "list-item" + (point.id === currentPointId ? " active" : "");
-div.onclick = () => selectPoint(point.id);
+  visible.forEach(point => {
+    const div = document.createElement("div");
+    div.className = "list-item" + (point.id === currentPointId ? " active" : "");
+    div.onclick = () => selectPoint(point.id);
 
-const title = document.createElement("div");
-title.innerHTML = point.mapNumber
-? `<strong>תחנה ${point.mapNumber}</strong> · ${point.title}`
-: `<strong>${point.title}</strong>`;
+    const title = document.createElement("div");
+    title.innerHTML = point.mapNumber
+      ? `<strong>תחנה ${point.mapNumber}</strong> · ${point.title}`
+      : `<strong>${point.title}</strong>`;
 
-const small = document.createElement("div");
-small.className = "small";
-small.textContent = point.subtitle || zoneLabels[point.zone] || "";
+    const small = document.createElement("div");
+    small.className = "small";
+    small.textContent = point.subtitle || zoneLabels[point.zone] || "";
 
-div.appendChild(title);
-div.appendChild(small);
-listContainer.appendChild(div);
-});
+    div.appendChild(title);
+    div.appendChild(small);
+    listContainer.appendChild(div);
+  });
 }
 
 function detailTags(point) {
-const tags = [];
-if (point.mapNumber) tags.push(`תחנה ${point.mapNumber}`);
-if (point.subtitle) tags.push(point.subtitle);
-tags.push(zoneLabels[point.zone] || point.zone);
-return tags;
+  const tags = [];
+  if (point.mapNumber) tags.push(`תחנה ${point.mapNumber}`);
+  if (point.subtitle) tags.push(point.subtitle);
+  tags.push(zoneLabels[point.zone] || point.zone);
+  return tags;
 }
 
 function handleImageError(img) {
-img.style.display = "none";
-const zoomBtn = document.getElementById("zoomBtn");
-if (zoomBtn) zoomBtn.style.display = "none";
-const fallback = document.getElementById("imageFallback");
-if (fallback) fallback.classList.add("visible");
+  img.style.display = "none";
+  const zoomBtn = document.getElementById("zoomBtn");
+  if (zoomBtn) zoomBtn.style.display = "none";
+  const fallback = document.getElementById("imageFallback");
+  if (fallback) fallback.classList.add("visible");
 }
 
 function handleImageLoad(img) {
-img.style.display = "block";
-const zoomBtn = document.getElementById("zoomBtn");
-if (zoomBtn) zoomBtn.style.display = "inline-flex";
-const fallback = document.getElementById("imageFallback");
-if (fallback) fallback.classList.remove("visible");
+  img.style.display = "block";
+  const zoomBtn = document.getElementById("zoomBtn");
+  if (zoomBtn) zoomBtn.style.display = "inline-flex";
+  const fallback = document.getElementById("imageFallback");
+  if (fallback) fallback.classList.remove("visible");
+}
+
+function escapeHtmlAttr(value) {
+  return String(value || "").replace(/'/g, "\\'");
 }
 
 function openLightbox(src, caption) {
-if (!src) return;
-lightboxImage.src = src;
-lightboxImage.alt = caption || "";
-lightboxCaption.textContent = caption || "";
-lightbox.classList.add("visible");
-lightbox.setAttribute("aria-hidden", "false");
-document.body.style.overflow = "hidden";
+  if (!src) return;
+  lightboxImage.src = src;
+  lightboxImage.alt = caption || "";
+  lightboxCaption.textContent = caption || "";
+  lightbox.classList.add("visible");
+  lightbox.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
 }
 
 function closeLightbox() {
-lightbox.classList.remove("visible");
-lightbox.setAttribute("aria-hidden", "true");
-lightboxImage.src = "";
-document.body.style.overflow = "";
+  lightbox.classList.remove("visible");
+  lightbox.setAttribute("aria-hidden", "true");
+  lightboxImage.src = "";
+  document.body.style.overflow = "";
 }
 
 function selectPoint(id) {
-currentPointId = id;
-renderDetails();
-renderMarkers();
-renderList();
+  currentPointId = id;
+  renderDetails();
+  renderMarkers();
+  renderList();
 }
 
 function renderDetails() {
-const point = getPointById(currentPointId);
-if (!point) return;
+  const point = getPointById(currentPointId);
+  if (!point) return;
 
-const tagsHtml = detailTags(point)
-.map(t => `<span class="tag">${t}</span>`)
-.join("");
+  const tagsHtml = detailTags(point)
+    .map(t => `<span class="tag">${t}</span>`)
+    .join("");
 
-detailCard.innerHTML = `
-<h2>${point.title}</h2>
-<div class="sub">${point.subtitle || "תחנה בגן"}</div>
-<div class="meta">${tagsHtml}</div>
-<div class="desc">${point.description}</div>
-<div id="imageWrap" class="image-wrap ${point.image ? "visible" : ""}">
-<img
-id="detailImage"
-src="${point.image || ""}"
-alt="${point.title}"
-loading="lazy"
-decoding="async"
-referrerpolicy="no-referrer"
-onerror="handleImageError(this)"
-onload="handleImageLoad(this)"
->
-<button
-id="zoomBtn"
-class="zoom-btn"
-type="button"
-title="הגדל תמונה"
-aria-label="הגדל תמונה"
-onclick="openLightbox('${point.image || ""}', '${(point.title || "").replaceAll("'", "\\'")}')"
->🔍</button>
-</div>
-<div id="imageFallback" class="image-fallback">לא ניתן לטעון את התמונה כרגע.</div>
-<div class="nav-buttons">
-<button class="btn secondary" id="prevBtn">תחנה קודמת</button>
-<button class="btn" id="nextBtn">תחנה הבאה</button>
-</div>
-`;
+  detailCard.innerHTML = `
+    <h2>${point.title}</h2>
+    <div class="sub">${point.subtitle || "תחנה בגן"}</div>
+    <div class="meta">${tagsHtml}</div>
+    <div class="desc">${point.description}</div>
+    <div id="imageWrap" class="image-wrap ${point.image ? "visible" : ""}">
+      <img
+        id="detailImage"
+        src="${point.image || ""}"
+        alt="${point.title}"
+        loading="lazy"
+        decoding="async"
+        referrerpolicy="no-referrer"
+        onerror="handleImageError(this)"
+        onload="handleImageLoad(this)"
+      >
+      <button
+        id="zoomBtn"
+        class="zoom-btn"
+        type="button"
+        title="הגדל תמונה"
+        aria-label="הגדל תמונה"
+        onclick="openLightbox('${point.image || ""}', '${escapeHtmlAttr(point.title || "")}')"
+      >🔍</button>
+    </div>
+    <div id="imageFallback" class="image-fallback">לא ניתן לטעון את התמונה כרגע.</div>
+    <div class="nav-buttons">
+      <button class="btn secondary" id="prevBtn">תחנה קודמת</button>
+      <button class="btn" id="nextBtn">תחנה הבאה</button>
+    </div>
+  `;
 
-document.getElementById("prevBtn").onclick = goPrev;
-document.getElementById("nextBtn").onclick = goNext;
+  document.getElementById("prevBtn").onclick = goPrev;
+  document.getElementById("nextBtn").onclick = goNext;
 }
 
 function getStoryIndexByCurrent() {
-const point = getPointById(currentPointId);
-if (!point || typeof point.mapNumber !== "number") return -1;
-return storyPoints.findIndex(p => p.id === point.id);
+  const point = getPointById(currentPointId);
+  if (!point || typeof point.mapNumber !== "number") return -1;
+  return storyPoints.findIndex(p => p.id === point.id);
 }
 
 function goPrev() {
-const idx = getStoryIndexByCurrent();
-if (idx > 0) {
-selectPoint(storyPoints[idx - 1].id);
-return;
-}
-const point = getPointById(currentPointId);
-if (point && point.id === "orientation") selectPoint("entry");
-else if (point && point.id === "plaza") selectPoint("orientation");
-else if (point && point.id === "children-memorial") selectPoint("plaza");
+  const idx = getStoryIndexByCurrent();
+  if (idx > 0) {
+    selectPoint(storyPoints[idx - 1].id);
+    return;
+  }
+  const point = getPointById(currentPointId);
+  if (point && point.id === "orientation") selectPoint("entry");
+  else if (point && point.id === "plaza") selectPoint("orientation");
+  else if (point && point.id === "children-memorial") selectPoint("plaza");
 }
 
 function goNext() {
-const idx = getStoryIndexByCurrent();
-if (idx >= 0 && idx < storyPoints.length - 1) {
-selectPoint(storyPoints[idx + 1].id);
-return;
-}
-const point = getPointById(currentPointId);
-if (point && point.id === "entry") selectPoint("orientation");
-else if (point && point.id === "orientation") selectPoint("plaza");
-else if (point && point.id === "plaza") selectPoint("s1");
-else if (point && point.id === "s22") selectPoint("children-memorial");
+  const idx = getStoryIndexByCurrent();
+  if (idx >= 0 && idx < storyPoints.length - 1) {
+    selectPoint(storyPoints[idx + 1].id);
+    return;
+  }
+  const point = getPointById(currentPointId);
+  if (point && point.id === "entry") selectPoint("orientation");
+  else if (point && point.id === "orientation") selectPoint("plaza");
+  else if (point && point.id === "plaza") selectPoint("s1");
+  else if (point && point.id === "s22") selectPoint("children-memorial");
 }
 
 function render() {
-buildFilters();
-renderMarkers();
-renderList();
+  buildFilters();
+  renderMarkers();
+  renderList();
 
-const current = getPointById(currentPointId);
-if (!current || !isVisible(current)) {
-const firstVisible = points
-.filter(isVisible)
-.sort((a, b) => (a.order ?? 999) - (b.order ?? 999))[0];
-if (firstVisible) currentPointId = firstVisible.id;
-}
+  const current = getPointById(currentPointId);
+  if (!current || !isVisible(current)) {
+    const firstVisible = points
+      .filter(isVisible)
+      .sort((a, b) => (a.order ?? 999) - (b.order ?? 999))[0];
+    if (firstVisible) currentPointId = firstVisible.id;
+  }
 
-renderDetails();
+  renderDetails();
 }
 
 searchInput.addEventListener("input", (e) => {
-currentQuery = e.target.value || "";
-render();
+  currentQuery = e.target.value || "";
+  render();
 });
 
 lightboxClose.addEventListener("click", closeLightbox);
 lightbox.addEventListener("click", (e) => {
-if (e.target === lightbox) closeLightbox();
+  if (e.target === lightbox) closeLightbox();
 });
 document.addEventListener("keydown", (e) => {
-if (e.key === "Escape" && lightbox.classList.contains("visible")) {
-closeLightbox();
-}
+  if (e.key === "Escape" && lightbox.classList.contains("visible")) {
+    closeLightbox();
+  }
 });
 
 render();
