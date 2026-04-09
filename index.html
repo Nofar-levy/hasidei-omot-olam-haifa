@@ -134,6 +134,7 @@ white-space: pre-line;
 .image-wrap {
 margin-top: 12px;
 display: none;
+position: relative;
 }
 .image-wrap.visible {
 display: block;
@@ -146,6 +147,28 @@ display: block;
 background: #f8f8f8;
 min-height: 120px;
 object-fit: cover;
+}
+.zoom-btn {
+position: absolute;
+top: 10px;
+left: 10px;
+width: 42px;
+height: 42px;
+border: none;
+border-radius: 999px;
+background: rgba(36, 48, 40, 0.85);
+color: #fff;
+font-size: 18px;
+cursor: pointer;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+box-shadow: 0 8px 20px rgba(0,0,0,.18);
+transition: transform .15s ease, background .15s ease;
+}
+.zoom-btn:hover {
+transform: scale(1.06);
+background: rgba(20, 28, 23, 0.92);
 }
 .image-fallback {
 display: none;
@@ -369,6 +392,12 @@ fill: #28332d;
 text-anchor: middle;
 pointer-events: none;
 }
+.marker-name {
+font-size: 10px;
+fill: #405047;
+text-anchor: middle;
+pointer-events: none;
+}
 .selected circle.base {
 stroke: #111827;
 stroke-width: 5;
@@ -379,6 +408,54 @@ padding: 0 16px 16px;
 color: var(--muted);
 font-size: 13px;
 }
+
+.lightbox {
+position: fixed;
+inset: 0;
+background: rgba(0,0,0,.82);
+display: none;
+align-items: center;
+justify-content: center;
+padding: 24px;
+z-index: 9999;
+}
+.lightbox.visible {
+display: flex;
+}
+.lightbox-inner {
+position: relative;
+max-width: min(1100px, 96vw);
+max-height: 92vh;
+}
+.lightbox img {
+display: block;
+max-width: 100%;
+max-height: 92vh;
+border-radius: 18px;
+box-shadow: 0 20px 60px rgba(0,0,0,.35);
+background: #111;
+}
+.lightbox-close {
+position: absolute;
+top: -14px;
+left: -14px;
+width: 44px;
+height: 44px;
+border: none;
+border-radius: 999px;
+background: #fff;
+color: #111;
+font-size: 24px;
+cursor: pointer;
+box-shadow: 0 8px 24px rgba(0,0,0,.2);
+}
+.lightbox-caption {
+margin-top: 10px;
+text-align: center;
+color: #fff;
+font-size: 14px;
+}
+
 @media (max-width: 1100px) {
 .app {
 grid-template-columns: 1fr;
@@ -509,6 +586,14 @@ order: 1;
 </main>
 </div>
 
+<div id="lightbox" class="lightbox" aria-hidden="true">
+<div class="lightbox-inner">
+<button id="lightboxClose" class="lightbox-close" aria-label="סגור">×</button>
+<img id="lightboxImage" src="" alt="">
+<div id="lightboxCaption" class="lightbox-caption"></div>
+</div>
+</div>
+
 <script>
 const points = [
 {
@@ -521,6 +606,7 @@ zone: "entry",
 x: 165,
 y: 705,
 label: "כניסה",
+shortName: "כניסה",
 mapNumber: null,
 image: "https://i.postimg.cc/zBhj4XgV/entry.jpg",
 description: "אנדרטת הכניסה לגן חסידי אומות העולם תושבי חיפה."
@@ -535,6 +621,7 @@ zone: "entry",
 x: 355,
 y: 540,
 label: "שביל",
+shortName: "שביל העלייה",
 mapNumber: null,
 image: "https://i.postimg.cc/Y9F3TqW9/path-up.jpg",
 description: "שביל הגישה מהכניסה הראשית אל אזור ההתמצאות."
@@ -549,6 +636,7 @@ zone: "orientation",
 x: 515,
 y: 365,
 label: "מפה",
+shortName: "התמצאות",
 mapNumber: null,
 image: "https://i.postimg.cc/mD9wK2Hc/orientation.jpg",
 description: "תחנת מבוא הכוללת את סיפור הגן, מפת ההתמצאות ושמות חסידי אומות העולם המונצחים בגן."
@@ -563,6 +651,7 @@ zone: "plaza",
 x: 690,
 y: 390,
 label: "רחבה",
+shortName: "הרחבה",
 mapNumber: null,
 image: "https://i.postimg.cc/wMdVz8XT/plaza.jpg",
 description: "רחבה פתוחה המחברת בין אזור שלטי גן העמודים, הרחבה המעגלית המרכזית וגל ילדי הנצח. זהו אזור מעבר והתכנסות מרכזי בתוך הגן."
@@ -577,6 +666,7 @@ zone: "children",
 x: 960,
 y: 650,
 label: "ילדי הנצח",
+shortName: "ילדי הנצח",
 mapNumber: null,
 image: "https://i.postimg.cc/26Wwg8Zm/children-memorial.jpg",
 description: "אזור זיכרון המוקדש לילדי השואה, בצמוד לגן המשחקים."
@@ -591,32 +681,33 @@ zone: "children",
 x: 1040,
 y: 720,
 label: "משחקים",
+shortName: "גן המשחקים",
 mapNumber: null,
 image: "https://i.postimg.cc/MTBDgKQj/playground.jpg",
 description: "גן משחקים הצמוד לאזור ילדי הנצח, ומדגיש את רעיון ההמשכיות והחיים."
 },
-{ id: "s1", order: 3, mapNumber: 1, title: "זופיה – מרטה אבני", subtitle: "פולין", type: "story", zone: "ring", x: 485, y: 245, label: "1", image: "https://i.postimg.cc/XYvg4gCz/story-01.jpg", description: "זופיה מרטה, אמה אלכסנדרה ואחיה אנטוני ויצ'ורק הסתירו שישה יהודים בעליית גג במשך שנה וחצי במהלך הכיבוש הנאצי." },
-{ id: "s2", order: 4, mapNumber: 2, title: "אנה דוברוקה־ג'זיירסקה", subtitle: "פולין", type: "story", zone: "ring", x: 565, y: 195, label: "2", image: "https://i.postimg.cc/L8sV2V1G/story-02.jpg", description: "תחנת הנצחה לאנה דוברוקה־ג'זיירסקה, שסייעה בהצלת יהודים בתקופת השואה." },
-{ id: "s3", order: 5, mapNumber: 3, title: "פלגיה הוצ'אק־שפרינגר", subtitle: "פולין", type: "story", zone: "ring", x: 655, y: 170, label: "3", image: "https://i.postimg.cc/zGfk8kg6/story-03.jpg", description: "פלגיה הוצ'אק־שפרינגר הסתירה יהודים בביתה בזמן מלחמת העולם השנייה." },
-{ id: "s4", order: 6, mapNumber: 4, title: "אנה הורנונג־טומצ'ק", subtitle: "פולין", type: "story", zone: "ring", x: 745, y: 170, label: "4", image: "https://i.postimg.cc/t4gzpz6Q/story-04.jpg", description: "סייעה לבנות זהות בדויה לאם ושני בניה, והציגה עצמה כאם המשפחה." },
-{ id: "s5", order: 7, mapNumber: 5, title: "ראול ולנברג", subtitle: "שבדיה", type: "story", zone: "ring", x: 835, y: 195, label: "5", image: "https://i.postimg.cc/P5qMTMDj/story-05.jpg", description: "הדיפלומט השבדי ראול ולנברג פעל להצלת יהודי הונגריה; חי תקופה גם בחיפה." },
-{ id: "s6", order: 8, mapNumber: 6, title: "אירנה יקירה־זינטל וברוניסלבה זינטל", subtitle: "פולין", type: "story", zone: "ring", x: 905, y: 245, label: "6", image: "https://i.postimg.cc/VkHW6bq2/story-06.jpg", description: "אירנה ואמה ברוניסלבה הסתירו 13 יהודים ודאגו להם למזון ולמחסורם." },
-{ id: "s7", order: 9, mapNumber: 7, title: "בלה (ואליה) יקימובה־ליפר", subtitle: "אוקראינה", type: "story", zone: "ring", x: 955, y: 320, label: "7", image: "https://i.postimg.cc/dVSj1T2p/story-07.jpg", description: "קשרה את גורלה בגורל בעלה היהודי והסתירה אותו יחד עם יהודים נוספים במשך 19 חודשים." },
-{ id: "s8", order: 10, mapNumber: 8, title: "הלינה לוגובסקה", subtitle: "פולין", type: "story", zone: "ring", x: 980, y: 405, label: "8", image: "https://i.postimg.cc/wjbQvs5Y/story-08.jpg", description: "הלינה ובעלה הסתירו אישה יהודייה ודאגו להעבירה בהמשך למקום מסתור נוסף." },
-{ id: "s9", order: 11, mapNumber: 9, title: "ירוסלבה לויצקה", subtitle: "אוקראינה", type: "story", zone: "ring", x: 965, y: 490, label: "9", image: "https://i.postimg.cc/RZbLFn1F/story-09.jpg", description: "הבריחה אוכל ליהודים, הסתירה ילדות יהודיות וסיפקה מזון לעוד יהודים." },
-{ id: "s10", order: 12, mapNumber: 10, title: "ויקטור מלניק", subtitle: "אוקראינה", type: "story", zone: "ring", x: 920, y: 565, label: "10", image: "https://i.postimg.cc/VkHW6b9L/story-10.jpg", description: "ויקטור, אמו ואחותו הסתירו יהודים, ציידו אותם בתעודות מזויפות וסייעו בהעברתם." },
-{ id: "s11", order: 13, mapNumber: 11, title: "תמרה מקסימניוק־ברומברג", subtitle: "אוקראינה", type: "story", zone: "ring", x: 850, y: 620, label: "11", image: "https://i.postimg.cc/Jzd5nB3z/story-11.jpg", description: "תמרה ואמה סייעו בהברחת מזון, בגדים, דירות מסתור וליווי מתמשך של יהודים." },
-{ id: "s12", order: 14, mapNumber: 12, title: "אליזבתה ניקופוי־סטרול", subtitle: "רומניה", type: "story", zone: "ring", x: 770, y: 655, label: "12", image: "https://i.postimg.cc/HkP9x70n/story-12.jpg", description: "הסתירה יהודים ודאגה למחסורם במשך תקופה ארוכה." },
-{ id: "s13", order: 15, mapNumber: 13, title: "מריה סרבניאק־דיקר", subtitle: "פולין", type: "story", zone: "ring", x: 685, y: 675, label: "13", image: "https://i.postimg.cc/KYkrgvQT/story-13.jpg", description: "הסתירה משפחה יהודית ודאגה למחסורם עד השחרור." },
-{ id: "s14", order: 16, mapNumber: 14, title: "ורוניקה פורוצאי", subtitle: "הונגריה", type: "story", zone: "ring", x: 595, y: 655, label: "14", image: "https://i.postimg.cc/25bFB8Ty/story-14.jpg", description: "הצילה אם וילדיה, הבריחה מזון ובגדים ודאגה למחבוא." },
-{ id: "s15", order: 17, mapNumber: 15, title: "ויקטוריה צוקרביץ־אייכברגר", subtitle: "פולין", type: "story", zone: "ring", x: 515, y: 620, label: "15", image: "https://i.postimg.cc/jjwQJdvw/story-15.jpg", description: "הסתירה יהודי שנמלט מעירו לאחר תחילת חיסול יהודי העיר." },
-{ id: "s16", order: 18, mapNumber: 16, title: "יוליה קלדי־ראלבובסקה", subtitle: "פולין", type: "story", zone: "ring", x: 450, y: 565, label: "16", image: "https://i.postimg.cc/LsYBZ6vg/story-16.jpg", description: "הסתירה נערה יהודייה לאחר שאמה נרצחה, ואף קברה את האם." },
-{ id: "s17", order: 19, mapNumber: 17, title: "יז'י שלאג", subtitle: "פולין", type: "story", zone: "ring", x: 410, y: 490, label: "17", image: "https://i.postimg.cc/SK27zNVg/story-17.jpg", description: "סייע ליהודים כלואים בגטו והבריח להם מזון." },
-{ id: "s18", order: 20, mapNumber: 18, title: "ברוניסלבה זינטל", subtitle: "פולין", type: "story", zone: "ring", x: 395, y: 405, label: "18", image: "https://i.postimg.cc/3xwZYZvS/p1-(5).jpg", description: "מונצחת גם לצד אירנה יקירה־זינטל; סייעה בהסתרת 13 יהודים." },
-{ id: "s19", order: 21, mapNumber: 19, title: "ג'וזף נסטור סנאדנקו־גרובר", subtitle: "אוקראינה", type: "story", zone: "ring", x: 420, y: 320, label: "19", image: "https://i.postimg.cc/ZqBFyKjM/story-19.jpg", description: "סייע בהסתרת משפחה יהודית ובדאגה למזון ולצרכים קיומיים." },
-{ id: "s20", order: 22, mapNumber: 20, title: "פרניה דדק־ביילסקי", subtitle: "אוקראינה", type: "story", zone: "ring", x: 470, y: 245, label: "20", image: "https://i.postimg.cc/GpWPPwSJ/story-20.jpg", description: "הצילה ילדים יהודים ואף העלתה אותם ארצה לאחר המלחמה." },
-{ id: "s21", order: 23, mapNumber: 21, title: "יוהנה בודין", subtitle: "סלובקיה", type: "story", zone: "ring", x: 565, y: 595, label: "21", image: "https://i.postimg.cc/jjp660kg/story-21.jpg", description: "הצילה משפחה וילד יהודי, וסייעה להם גם במקום מסתור חלופי." },
-{ id: "s22", order: 24, mapNumber: 22, title: "ולאדיסלאבה חומסובה", subtitle: "פולין", type: "story", zone: "ring", x: 805, y: 595, label: "22", image: "https://i.postimg.cc/8C2ddQnX/story-22.jpg", description: "הבריחה יהודים, דאגה למקומות מסתור וסייעה לילדים יהודים להסתתר." }
+{ id: "s1", order: 3, mapNumber: 1, title: "זופיה – מרטה אבני", shortName: "זופיה – מרטה אבני", subtitle: "פולין", type: "story", zone: "ring", x: 485, y: 245, label: "1", image: "https://i.postimg.cc/XYvg4gCz/story-01.jpg", description: "זופיה מרטה, אמה אלכסנדרה ואחיה אנטוני ויצ'ורק הסתירו שישה יהודים בעליית גג במשך שנה וחצי במהלך הכיבוש הנאצי." },
+{ id: "s2", order: 4, mapNumber: 2, title: "אנה דוברוקה־ג'זיירסקה", shortName: "אנה דוברוקה", subtitle: "פולין", type: "story", zone: "ring", x: 565, y: 195, label: "2", image: "https://i.postimg.cc/L8sV2V1G/story-02.jpg", description: "תחנת הנצחה לאנה דוברוקה־ג'זיירסקה, שסייעה בהצלת יהודים בתקופת השואה." },
+{ id: "s3", order: 5, mapNumber: 3, title: "פלגיה הוצ'אק־שפרינגר", shortName: "פלגיה הוצ'אק", subtitle: "פולין", type: "story", zone: "ring", x: 655, y: 170, label: "3", image: "https://i.postimg.cc/zGfk8kg6/story-03.jpg", description: "פלגיה הוצ'אק־שפרינגר הסתירה יהודים בביתה בזמן מלחמת העולם השנייה." },
+{ id: "s4", order: 6, mapNumber: 4, title: "אנה הורנונג־טומצ'ק", shortName: "אנה הורנונג", subtitle: "פולין", type: "story", zone: "ring", x: 745, y: 170, label: "4", image: "https://i.postimg.cc/t4gzpz6Q/story-04.jpg", description: "סייעה לבנות זהות בדויה לאם ושני בניה, והציגה עצמה כאם המשפחה." },
+{ id: "s5", order: 7, mapNumber: 5, title: "ראול ולנברג", shortName: "ראול ולנברג", subtitle: "שבדיה", type: "story", zone: "ring", x: 835, y: 195, label: "5", image: "https://i.postimg.cc/P5qMTMDj/story-05.jpg", description: "הדיפלומט השבדי ראול ולנברג פעל להצלת יהודי הונגריה; חי תקופה גם בחיפה." },
+{ id: "s6", order: 8, mapNumber: 6, title: "אירנה יקירה־זינטל וברוניסלבה זינטל", shortName: "אירנה וברוניסלבה", subtitle: "פולין", type: "story", zone: "ring", x: 905, y: 245, label: "6", image: "https://i.postimg.cc/VkHW6bq2/story-06.jpg", description: "אירנה ואמה ברוניסלבה הסתירו 13 יהודים ודאגו להם למזון ולמחסורם." },
+{ id: "s7", order: 9, mapNumber: 7, title: "בלה (ואליה) יקימובה־ליפר", shortName: "בלה יקימובה", subtitle: "אוקראינה", type: "story", zone: "ring", x: 955, y: 320, label: "7", image: "https://i.postimg.cc/dVSj1T2p/story-07.jpg", description: "קשרה את גורלה בגורל בעלה היהודי והסתירה אותו יחד עם יהודים נוספים במשך 19 חודשים." },
+{ id: "s8", order: 10, mapNumber: 8, title: "הלינה לוגובסקה", shortName: "הלינה לוגובסקה", subtitle: "פולין", type: "story", zone: "ring", x: 980, y: 405, label: "8", image: "https://i.postimg.cc/wjbQvs5Y/story-08.jpg", description: "הלינה ובעלה הסתירו אישה יהודייה ודאגו להעבירה בהמשך למקום מסתור נוסף." },
+{ id: "s9", order: 11, mapNumber: 9, title: "ירוסלבה לויצקה", shortName: "ירוסלבה לויצקה", subtitle: "אוקראינה", type: "story", zone: "ring", x: 965, y: 490, label: "9", image: "https://i.postimg.cc/RZbLFn1F/story-09.jpg", description: "הבריחה אוכל ליהודים, הסתירה ילדות יהודיות וסיפקה מזון לעוד יהודים." },
+{ id: "s10", order: 12, mapNumber: 10, title: "ויקטור מלניק", shortName: "ויקטור מלניק", subtitle: "אוקראינה", type: "story", zone: "ring", x: 920, y: 565, label: "10", image: "https://i.postimg.cc/VkHW6b9L/story-10.jpg", description: "ויקטור, אמו ואחותו הסתירו יהודים, ציידו אותם בתעודות מזויפות וסייעו בהעברתם." },
+{ id: "s11", order: 13, mapNumber: 11, title: "תמרה מקסימניוק־ברומברג", shortName: "תמרה מקסימניוק", subtitle: "אוקראינה", type: "story", zone: "ring", x: 850, y: 620, label: "11", image: "https://i.postimg.cc/Jzd5nB3z/story-11.jpg", description: "תמרה ואמה סייעו בהברחת מזון, בגדים, דירות מסתור וליווי מתמשך של יהודים." },
+{ id: "s12", order: 14, mapNumber: 12, title: "אליזבתה ניקופוי־סטרול", shortName: "אליזבתה ניקופוי", subtitle: "רומניה", type: "story", zone: "ring", x: 770, y: 655, label: "12", image: "https://i.postimg.cc/HkP9x70n/story-12.jpg", description: "הסתירה יהודים ודאגה למחסורם במשך תקופה ארוכה." },
+{ id: "s13", order: 15, mapNumber: 13, title: "מריה סרבניאק־דיקר", shortName: "מריה סרבניאק", subtitle: "פולין", type: "story", zone: "ring", x: 685, y: 675, label: "13", image: "https://i.postimg.cc/KYkrgvQT/story-13.jpg", description: "הסתירה משפחה יהודית ודאגה למחסורם עד השחרור." },
+{ id: "s14", order: 16, mapNumber: 14, title: "ורוניקה פורוצאי", shortName: "ורוניקה פורוצאי", subtitle: "הונגריה", type: "story", zone: "ring", x: 595, y: 655, label: "14", image: "https://i.postimg.cc/25bFB8Ty/story-14.jpg", description: "הצילה אם וילדיה, הבריחה מזון ובגדים ודאגה למחבוא." },
+{ id: "s15", order: 17, mapNumber: 15, title: "ויקטוריה צוקרביץ־אייכברגר", shortName: "ויקטוריה צוקרביץ", subtitle: "פולין", type: "story", zone: "ring", x: 515, y: 620, label: "15", image: "https://i.postimg.cc/jjwQJdvw/story-15.jpg", description: "הסתירה יהודי שנמלט מעירו לאחר תחילת חיסול יהודי העיר." },
+{ id: "s16", order: 18, mapNumber: 16, title: "יוליה קלדי־ראלבובסקה", shortName: "יוליה קלדי", subtitle: "פולין", type: "story", zone: "ring", x: 450, y: 565, label: "16", image: "https://i.postimg.cc/LsYBZ6vg/story-16.jpg", description: "הסתירה נערה יהודייה לאחר שאמה נרצחה, ואף קברה את האם." },
+{ id: "s17", order: 19, mapNumber: 17, title: "יז'י שלאג", shortName: "יז'י שלאג", subtitle: "פולין", type: "story", zone: "ring", x: 410, y: 490, label: "17", image: "https://i.postimg.cc/SK27zNVg/story-17.jpg", description: "סייע ליהודים כלואים בגטו והבריח להם מזון." },
+{ id: "s18", order: 20, mapNumber: 18, title: "ברוניסלבה זינטל", shortName: "ברוניסלבה זינטל", subtitle: "פולין", type: "story", zone: "ring", x: 395, y: 405, label: "18", image: "https://i.postimg.cc/3xwZYZvS/p1-(5).jpg", description: "מונצחת גם לצד אירנה יקירה־זינטל; סייעה בהסתרת 13 יהודים." },
+{ id: "s19", order: 21, mapNumber: 19, title: "ג'וזף נסטור סנאדנקו־גרובר", shortName: "ג'וזף נסטור", subtitle: "אוקראינה", type: "story", zone: "ring", x: 420, y: 320, label: "19", image: "https://i.postimg.cc/ZqBFyKjM/story-19.jpg", description: "סייע בהסתרת משפחה יהודית ובדאגה למזון ולצרכים קיומיים." },
+{ id: "s20", order: 22, mapNumber: 20, title: "פרניה דדק־ביילסקי", shortName: "פרניה דדק", subtitle: "אוקראינה", type: "story", zone: "ring", x: 470, y: 245, label: "20", image: "https://i.postimg.cc/GpWPPwSJ/story-20.jpg", description: "הצילה ילדים יהודים ואף העלתה אותם ארצה לאחר המלחמה." },
+{ id: "s21", order: 23, mapNumber: 21, title: "יוהנה בודין", shortName: "יוהנה בודין", subtitle: "סלובקיה", type: "story", zone: "ring", x: 565, y: 595, label: "21", image: "https://i.postimg.cc/jjp660kg/story-21.jpg", description: "הצילה משפחה וילד יהודי, וסייעה להם גם במקום מסתור חלופי." },
+{ id: "s22", order: 24, mapNumber: 22, title: "ולאדיסלאבה חומסובה", shortName: "ולאדיסלאבה", subtitle: "פולין", type: "story", zone: "ring", x: 805, y: 595, label: "22", image: "https://i.postimg.cc/8C2ddQnX/story-22.jpg", description: "הבריחה יהודים, דאגה למקומות מסתור וסייעה לילדים יהודים להסתתר." }
 ];
 
 const zoneLabels = {
@@ -650,6 +741,10 @@ const markersLayer = document.getElementById("markersLayer");
 const listContainer = document.getElementById("listContainer");
 const searchInput = document.getElementById("searchInput");
 const detailCard = document.getElementById("detailCard");
+const lightbox = document.getElementById("lightbox");
+const lightboxImage = document.getElementById("lightboxImage");
+const lightboxCaption = document.getElementById("lightboxCaption");
+const lightboxClose = document.getElementById("lightboxClose");
 
 const storyPoints = points
 .filter(p => typeof p.mapNumber === "number")
@@ -675,6 +770,7 @@ if (!zoneOk) return false;
 if (!q) return true;
 return (
 point.title.toLowerCase().includes(q) ||
+(point.shortName || "").toLowerCase().includes(q) ||
 (point.subtitle || "").toLowerCase().includes(q) ||
 (point.description || "").toLowerCase().includes(q) ||
 String(point.mapNumber || "").includes(q)
@@ -723,6 +819,13 @@ label.setAttribute("y", markerRadius(point) + 18);
 label.textContent = point.label || point.title;
 g.appendChild(label);
 
+const name = document.createElementNS("http://www.w3.org/2000/svg", "text");
+name.setAttribute("class", "marker-name");
+name.setAttribute("x", 0);
+name.setAttribute("y", markerRadius(point) + 32);
+name.textContent = point.shortName || "";
+g.appendChild(name);
+
 markersLayer.appendChild(g);
 });
 }
@@ -764,14 +867,35 @@ return tags;
 
 function handleImageError(img) {
 img.style.display = "none";
+const zoomBtn = document.getElementById("zoomBtn");
+if (zoomBtn) zoomBtn.style.display = "none";
 const fallback = document.getElementById("imageFallback");
 if (fallback) fallback.classList.add("visible");
 }
 
 function handleImageLoad(img) {
 img.style.display = "block";
+const zoomBtn = document.getElementById("zoomBtn");
+if (zoomBtn) zoomBtn.style.display = "inline-flex";
 const fallback = document.getElementById("imageFallback");
 if (fallback) fallback.classList.remove("visible");
+}
+
+function openLightbox(src, caption) {
+if (!src) return;
+lightboxImage.src = src;
+lightboxImage.alt = caption || "";
+lightboxCaption.textContent = caption || "";
+lightbox.classList.add("visible");
+lightbox.setAttribute("aria-hidden", "false");
+document.body.style.overflow = "hidden";
+}
+
+function closeLightbox() {
+lightbox.classList.remove("visible");
+lightbox.setAttribute("aria-hidden", "true");
+lightboxImage.src = "";
+document.body.style.overflow = "";
 }
 
 function selectPoint(id) {
@@ -805,6 +929,14 @@ referrerpolicy="no-referrer"
 onerror="handleImageError(this)"
 onload="handleImageLoad(this)"
 >
+<button
+id="zoomBtn"
+class="zoom-btn"
+type="button"
+title="הגדל תמונה"
+aria-label="הגדל תמונה"
+onclick="openLightbox('${point.image || ""}', '${(point.title || "").replaceAll("'", "\\'")}')"
+>🔍</button>
 </div>
 <div id="imageFallback" class="image-fallback">לא ניתן לטעון את התמונה כרגע.</div>
 <div class="nav-buttons">
@@ -867,6 +999,16 @@ renderDetails();
 searchInput.addEventListener("input", (e) => {
 currentQuery = e.target.value || "";
 render();
+});
+
+lightboxClose.addEventListener("click", closeLightbox);
+lightbox.addEventListener("click", (e) => {
+if (e.target === lightbox) closeLightbox();
+});
+document.addEventListener("keydown", (e) => {
+if (e.key === "Escape" && lightbox.classList.contains("visible")) {
+closeLightbox();
+}
 });
 
 render();
